@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trifold Calculator XP</title>
+    <style>
+        :root {
+            --xp-blue: #1150AE;
+            --xp-gradient-start: #2860BC;
+            --xp-gradient-end: #0F3C8C;
+            --xp-border: #1F4DDB;
+            --xp-gray-bg: #ECE9D8;
+            --xp-input-bg: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Tahoma, sans-serif;
+            background: var(--xp-gray-bg);
+            color: #000000;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--xp-blue);
+            padding: 12px 16px;
+            border-bottom: 2px solid #000066;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 16px;
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #FFFFFF;
+            font-size: 11px;
+            margin-top: 2px;
+            opacity: 0.9;
+        }
+
+        .container {
+            padding: 8px;
+        }
+
+        .machine-interface {
+            background: #FFFFFF;
+            border: 1px solid #919B9C;
+            padding: 8px;
+            box-shadow: inset 1px 1px 0 #FFFFFF;
+        }
+
+        .controls {
+            margin-bottom: 8px;
+        }
+
+        .unit-toggle {
+            background: linear-gradient(to bottom, #EEE, #DDD);
+            color: #000000;
+            border: 1px solid #888;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: Tahoma, sans-serif;
+            box-shadow: inset 1px 1px 0 #FFFFFF;
+        }
+
+        .unit-toggle:active {
+            background: #DDD;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .input-section {
+            background: #F0F0F0;
+            border: 1px solid #919B9C;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .input-label {
+            color: #000000;
+            font-size: 11px;
+            min-width: 85px;
+        }
+
+        input[type="number"] {
+            flex-grow: 1;
+            background: #FFFFFF;
+            border: 2px inset #919B9C;
+            padding: 3px 6px;
+            font-size: 12px;
+            font-family: "Lucida Console", monospace;
+        }
+
+        .measurement-group {
+            border: 1px solid #919B9C;
+            margin: 8px 0;
+            padding: 6px;
+            background: #F0F0F0;
+        }
+
+        .group-title {
+            background: var(--xp-blue);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 8px;
+            margin: -6px -6px 6px -6px;
+        }
+
+        .measurement-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 6px;
+            background: #FFFFFF;
+            border: 1px solid #DDD;
+            margin: 2px 0;
+        }
+
+        .measurement-label {
+            font-size: 11px;
+            color: #000000;
+            min-width: 60px;
+        }
+
+        .measurement-value {
+            font-family: "Lucida Console", monospace;
+            font-size: 12px;
+            color: #000000;
+            text-align: right;
+            flex-grow: 1;
+            margin-left: 8px;
+        }
+
+        .button {
+            background: var(--xp-blue);
+            color: white;
+            border: 1px solid #000066;
+            padding: 6px 12px;
+            font-size: 12px;
+            width: 100%;
+            font-family: Tahoma, sans-serif;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .button:active {
+            background: #0A3070;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .ruler-note {
+            background: #FFFFD7;
+            border: 1px solid #D5D5AD;
+            padding: 6px 8px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #000000;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 8px;
+            color: #666666;
+            font-size: 10px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Trifold Calculator XP</h1>
+        <div class="subtitle">Professional Folding Machine Calculator</div>
+    </div>
+
+    <div class="container">
+        <div class="machine-interface">
+            <div class="controls">
+                <button class="unit-toggle" id="unitToggle" onclick="toggleUnits()">Switch to Metric</button>
+            </div>
+
+            <div class="input-section">
+                <div class="input-container">
+                    <span class="input-label">Sheet Length:</span>
+                    <input type="number" id="sheetLength" step="0.001">
+                    <span id="unitLabel" style="font-size: 11px;">inch</span>
+                </div>
+            </div>
+
+            <div class="measurement-group">
+                <div class="group-title">Scores</div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Score 1:</span>
+                    <span class="measurement-value" id="score1">-</span>
+                </div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Score 2:</span>
+                    <span class="measurement-value" id="score2">-</span>
+                </div>
+            </div>
+
+            <div class="measurement-group">
+                <div class="group-title">Folds</div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Fold 1:</span>
+                    <span class="measurement-value" id="fold1">-</span>
+                </div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Fold 2:</span>
+                    <span class="measurement-value" id="fold2">-</span>
+                </div>
+            </div>
+
+            <div class="measurement-group">
+                <div class="group-title">Panels</div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Panel 1:</span>
+                    <span class="measurement-value" id="panel1">-</span>
+                </div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Panel 2:</span>
+                    <span class="measurement-value" id="panel2">-</span>
+                </div>
+                <div class="measurement-row">
+                    <span class="measurement-label">Panel 3:</span>
+                    <span class="measurement-value" id="panel3">-</span>
+                </div>
+            </div>
+
+            <button class="button" onclick="calculate()">Calculate</button>
+
+            <div class="ruler-note" id="rulerNote">
+                * Imperial measurements include 16ths for ruler alignment
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2024 Trifold Calculator XP - Professional Folding Machine Interface
+    </div>
+
+    <script>
+        let isMetric = false;
+
+        function toggleUnits() {
+            isMetric = !isMetric;
+            document.getElementById('unitToggle').textContent = isMetric ? 'Switch to Imperial' : 'Switch to Metric';
+            document.getElementById('unitLabel').textContent = isMetric ? 'mm' : 'inch';
+            document.getElementById('rulerNote').style.display = isMetric ? 'none' : 'block';
+            calculate();
+        }
+
+        function decimal_to_precise_16ths(value) {
+            const whole = Math.floor(value);
+            const fraction = value - whole;
+            const sixteenths = fraction * 16;
+            
+            if (sixteenths === 0) return `"`;
+            
+            const roundedSixteenths = Math.round(sixteenths * 10) / 10;
+            if (roundedSixteenths === 16) {
+                return `"`;
+            }
+            
+            return ` and /16"`;
+        }
+
+        function formatMeasurement(value) {
+            if (isMetric) {
+                return `mm`;
+            }
+            return `" ()`;
+        }
+
+        function calculate() {
+            const sheetLength = parseFloat(document.getElementById('sheetLength').value);
+            
+            if (isNaN(sheetLength) || sheetLength <= 0) {
+                alert('Please enter a valid sheet length');
+                return;
+            }
+
+            const score1 = 0.3325 * sheetLength + 0.03;
+            const score2 = 0.665 * sheetLength + 0.05;
+            const fold1 = score2;
+            const fold2 = score2 - score1;
+            const panel1 = score1;
+            const panel2 = score2 - score1;
+            const panel3 = sheetLength - score2;
+
+            document.getElementById('score1').textContent = formatMeasurement(score1);
+            document.getElementById('score2').textContent = formatMeasurement(score2);
+            document.getElementById('fold1').textContent = formatMeasurement(fold1);
+            document.getElementById('fold2').textContent = formatMeasurement(fold2);
+            document.getElementById('panel1').textContent = formatMeasurement(panel1);
+            document.getElementById('panel2').textContent = formatMeasurement(panel2);
+            document.getElementById('panel3').textContent = formatMeasurement(panel3);
+        }
+    </script>
+</body>
+</html>
