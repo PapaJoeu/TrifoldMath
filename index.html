@@ -1,316 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character set and responsiveness -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trifold Calculator XP</title>
+    <title>Trifold Calculator XP - Professional Folding Machine Calculator</title>
+    <!-- Internal CSS -->
     <style>
-        :root {
-            --xp-blue: #1150AE;
-            --xp-gradient-start: #2860BC;
-            --xp-gradient-end: #0F3C8C;
-            --xp-border: #1F4DDB;
-            --xp-gray-bg: #ECE9D8;
-            --xp-input-bg: #FFFFFF;
-        }
-
+        /* Base styles */
         body {
             margin: 0;
             padding: 0;
-            font-family: Tahoma, sans-serif;
-            background: var(--xp-gray-bg);
-            color: #000000;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #F2F2F7;
+            color: #000;
         }
 
+        /* Header styles */
         .header {
-            background: var(--xp-blue);
-            padding: 12px 16px;
-            border-bottom: 2px solid #000066;
+            background-color: #FFFFFF;
+            padding: 16px;
+            border-bottom: 1px solid #C6C6C8;
+            text-align: center;
         }
 
         .title {
             margin: 0;
-            font-size: 16px;
-            color: white;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1C1C1E;
         }
 
         .subtitle {
-            color: #FFFFFF;
-            font-size: 11px;
-            margin-top: 2px;
-            opacity: 0.9;
+            margin-top: 4px;
+            font-size: 14px;
+            color: #8E8E93;
         }
 
+        /* Container styles */
         .container {
-            padding: 8px;
+            padding: 16px;
         }
 
+        /* Machine interface styles */
         .machine-interface {
-            background: #FFFFFF;
-            border: 1px solid #919B9C;
-            padding: 8px;
-            box-shadow: inset 1px 1px 0 #FFFFFF;
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .controls {
-            margin-bottom: 8px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
         }
 
         .unit-toggle {
-            background: linear-gradient(to bottom, #EEE, #DDD);
-            color: #000000;
-            border: 1px solid #888;
-            padding: 4px 8px;
-            font-size: 11px;
+            background-color: #007AFF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 16px;
             cursor: pointer;
-            font-family: Tahoma, sans-serif;
-            box-shadow: inset 1px 1px 0 #FFFFFF;
         }
 
         .unit-toggle:active {
-            background: #DDD;
-            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+            background-color: #005BB5;
         }
 
+        /* Input section styles */
         .input-section {
-            background: #F0F0F0;
-            border: 1px solid #919B9C;
-            padding: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
 
         .input-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
         }
 
         .input-label {
-            color: #000000;
-            font-size: 11px;
-            min-width: 85px;
+            font-size: 16px;
+            color: #3C3C43;
+            margin-right: 8px;
         }
 
         input[type="number"] {
             flex-grow: 1;
-            background: #FFFFFF;
-            border: 2px inset #919B9C;
-            padding: 3px 6px;
-            font-size: 12px;
-            font-family: "Lucida Console", monospace;
+            background-color: #FFFFFF;
+            border: 1px solid #C6C6C8;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 16px;
+            color: #1C1C1E;
         }
 
+        .unit-label {
+            font-size: 16px;
+            color: #3C3C43;
+            margin-left: 8px;
+        }
+
+        /* Measurement group styles */
         .measurement-group {
-            border: 1px solid #919B9C;
-            margin: 8px 0;
-            padding: 6px;
-            background: #F0F0F0;
+            margin-bottom: 16px;
         }
 
         .group-title {
-            background: var(--xp-blue);
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 4px 8px;
-            margin: -6px -6px 6px -6px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1C1C1E;
+            margin-bottom: 8px;
         }
 
         .measurement-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 6px;
-            background: #FFFFFF;
-            border: 1px solid #DDD;
-            margin: 2px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #E5E5EA;
         }
 
         .measurement-label {
-            font-size: 11px;
-            color: #000000;
-            min-width: 60px;
+            font-size: 16px;
+            color: #3C3C43;
         }
 
         .measurement-value {
-            font-family: "Lucida Console", monospace;
-            font-size: 12px;
-            color: #000000;
+            font-size: 16px;
+            color: #1C1C1E;
             text-align: right;
-            flex-grow: 1;
-            margin-left: 8px;
         }
 
-        .button {
-            background: var(--xp-blue);
-            color: white;
-            border: 1px solid #000066;
-            padding: 6px 12px;
-            font-size: 12px;
+        /* Ruler visualization styles */
+        .ruler-container {
+            margin: 8px 0 16px 0;
+        }
+
+        .ruler {
+            position: relative;
             width: 100%;
-            font-family: Tahoma, sans-serif;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+            height: 24px;
+            background-color: #E5E5EA;
+            border-radius: 4px;
+            display: flex;
+        }
+
+        .ruler .tick {
+            flex: 1;
+            position: relative;
+        }
+
+        .ruler .tick::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 1px;
+            height: 12px;
+            background-color: #8E8E93;
+            transform: translateX(-50%);
+        }
+
+        .ruler .tick.highlight::before {
+            background-color: #FF9500;
+            height: 16px;
+        }
+
+        .ruler .tick.whole-inch::before {
+            background-color: #1C1C1E;
+            height: 16px;
+        }
+
+        /* Calculate button styles */
+        .button {
+            background-color: #34C759;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
             cursor: pointer;
-            margin-top: 8px;
         }
 
         .button:active {
-            background: #0A3070;
-            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+            background-color: #28A745;
         }
 
+        /* Ruler note styles */
         .ruler-note {
-            background: #FFFFD7;
-            border: 1px solid #D5D5AD;
-            padding: 6px 8px;
-            margin-top: 8px;
-            font-size: 11px;
-            color: #000000;
+            background-color: #FFFBCC;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #3C3C43;
         }
 
+        /* Footer styles */
         .footer {
             text-align: center;
-            padding: 8px;
-            color: #666666;
-            font-size: 10px;
-            margin-top: 16px;
+            padding: 16px;
+            color: #8E8E93;
+            font-size: 12px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 8px;
+            }
+
+            .machine-interface {
+                padding: 16px 8px;
+            }
+
+            .unit-toggle,
+            .button {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .input-label,
+            .unit-label,
+            .measurement-label,
+            .measurement-value {
+                font-size: 14px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header section -->
     <div class="header">
         <h1 class="title">Trifold Calculator XP</h1>
-        <div class="subtitle">Professional Folding Machine Calculator</div>
+        <div class="subtitle">Your Professional Folding Machine Calculator</div>
     </div>
 
+    <!-- Main container -->
     <div class="container">
         <div class="machine-interface">
+            <!-- Controls section -->
             <div class="controls">
-                <button class="unit-toggle" id="unitToggle" onclick="toggleUnits()">Switch to Metric</button>
+                <!-- Button to toggle between Metric and Imperial units -->
+                <button class="unit-toggle" id="unitToggle" onclick="toggleUnitSystem()">Switch to Metric</button>
             </div>
 
+            <!-- Input section for sheet length -->
             <div class="input-section">
                 <div class="input-container">
                     <span class="input-label">Sheet Length:</span>
-                    <input type="number" id="sheetLength" step="0.001">
-                    <span id="unitLabel" style="font-size: 11px;">inch</span>
+                    <input type="number" id="sheetLength" step="0.001" placeholder="Enter sheet length" value="11">
+                    <span id="unitLabel" class="unit-label">inch</span>
                 </div>
             </div>
 
+            <!-- Measurement groups for Scores -->
             <div class="measurement-group">
                 <div class="group-title">Scores</div>
                 <div class="measurement-row">
                     <span class="measurement-label">Score 1:</span>
                     <span class="measurement-value" id="score1">-</span>
                 </div>
+                <!-- Ruler visualization for Score 1 -->
+                <div class="ruler-container" id="rulerScore1"></div>
+
                 <div class="measurement-row">
                     <span class="measurement-label">Score 2:</span>
                     <span class="measurement-value" id="score2">-</span>
                 </div>
+                <!-- Ruler visualization for Score 2 -->
+                <div class="ruler-container" id="rulerScore2"></div>
             </div>
 
+            <!-- Measurement groups for Folds -->
             <div class="measurement-group">
                 <div class="group-title">Folds</div>
                 <div class="measurement-row">
                     <span class="measurement-label">Fold 1:</span>
                     <span class="measurement-value" id="fold1">-</span>
                 </div>
+                <!-- Ruler visualization for Fold 1 -->
+                <div class="ruler-container" id="rulerFold1"></div>
+
                 <div class="measurement-row">
                     <span class="measurement-label">Fold 2:</span>
                     <span class="measurement-value" id="fold2">-</span>
                 </div>
+                <!-- Ruler visualization for Fold 2 -->
+                <div class="ruler-container" id="rulerFold2"></div>
             </div>
 
+            <!-- Measurement groups for Panels -->
             <div class="measurement-group">
                 <div class="group-title">Panels</div>
                 <div class="measurement-row">
                     <span class="measurement-label">Panel 1:</span>
                     <span class="measurement-value" id="panel1">-</span>
                 </div>
+                <!-- Ruler visualization for Panel 1 -->
+                <div class="ruler-container" id="rulerPanel1"></div>
+
                 <div class="measurement-row">
                     <span class="measurement-label">Panel 2:</span>
                     <span class="measurement-value" id="panel2">-</span>
                 </div>
+                <!-- Ruler visualization for Panel 2 -->
+                <div class="ruler-container" id="rulerPanel2"></div>
+
                 <div class="measurement-row">
                     <span class="measurement-label">Panel 3:</span>
                     <span class="measurement-value" id="panel3">-</span>
                 </div>
+                <!-- Ruler visualization for Panel 3 -->
+                <div class="ruler-container" id="rulerPanel3"></div>
             </div>
 
-            <button class="button" onclick="calculate()">Calculate</button>
+            <!-- Calculate button -->
+            <button class="button" onclick="calculateMeasurements()">Calculate</button>
 
+            <!-- Note for ruler alignment in Imperial units -->
             <div class="ruler-note" id="rulerNote">
-                * Imperial measurements include 16ths for ruler alignment
+                * Imperial measurements include 16ths for precise ruler alignment.
             </div>
         </div>
     </div>
 
+    <!-- Footer section -->
     <div class="footer">
         © 2024 Trifold Calculator XP - Professional Folding Machine Interface
     </div>
 
+    <!-- Internal JavaScript -->
     <script>
-        let isMetric = false;
+        // Flag to track the current unit system (false for Imperial, true for Metric)
+        let useMetricUnits = false;
 
-        function toggleUnits() {
-            isMetric = !isMetric;
-            document.getElementById('unitToggle').textContent = isMetric ? 'Switch to Imperial' : 'Switch to Metric';
-            document.getElementById('unitLabel').textContent = isMetric ? 'mm' : 'inch';
-            document.getElementById('rulerNote').style.display = isMetric ? 'none' : 'block';
-            calculate();
+        /**
+         * Toggles between Imperial and Metric units.
+         */
+        function toggleUnitSystem() {
+            useMetricUnits = !useMetricUnits;
+            document.getElementById('unitToggle').textContent = useMetricUnits ? 'Switch to Imperial' : 'Switch to Metric';
+            document.getElementById('unitLabel').textContent = useMetricUnits ? 'mm' : 'inch';
+            document.getElementById('rulerNote').style.display = useMetricUnits ? 'none' : 'block';
+            calculateMeasurements(); // Recalculate measurements with the new unit system
         }
 
-        function decimal_to_precise_16ths(value) {
-            const whole = Math.floor(value);
-            const fraction = value - whole;
-            const sixteenths = fraction * 16;
-            
-            if (sixteenths === 0) return `${whole}"`;
-            
-            const roundedSixteenths = Math.round(sixteenths * 10) / 10;
-            if (roundedSixteenths === 16) {
-                return `${whole + 1}"`;
+        /**
+         * Converts a decimal inch measurement to a precise fraction in 16ths.
+         * @param {number} decimalInches - The decimal value in inches.
+         * @returns {object} - An object containing whole inches and sixteenths.
+         */
+        function convertDecimalInchesToSixteenths(decimalInches) {
+            const totalSixteenths = Math.round(decimalInches * 16);
+            const wholeInches = Math.floor(totalSixteenths / 16);
+            const sixteenths = totalSixteenths % 16;
+            return { wholeInches, sixteenths };
+        }
+
+        /**
+         * Formats the measurement based on the current unit system.
+         * @param {number} measurement - The measurement value.
+         * @returns {string} - The formatted measurement string.
+         */
+        function formatMeasurement(measurement) {
+            if (useMetricUnits) {
+                return `${measurement.toFixed(3)} mm`;
+            } else {
+                const { wholeInches, sixteenths } = convertDecimalInchesToSixteenths(measurement);
+                let fractionPart = '';
+                if (sixteenths > 0) {
+                    fractionPart = ` and ${sixteenths}/16`;
+                }
+                return `${measurement.toFixed(3)}" (${wholeInches}${fractionPart}")`;
             }
-            
-            return `${whole} and ${roundedSixteenths}/16"`;
         }
 
-        function formatMeasurement(value) {
-            if (isMetric) {
-                return `${value.toFixed(3)}mm`;
-            }
-            return `${value.toFixed(3)}" (${decimal_to_precise_16ths(value)})`;
-        }
+        /**
+         * Generates the ruler visualization for a given measurement.
+         * @param {string} rulerContainerId - The ID of the ruler container element.
+         * @param {number} measurementInches - The measurement in inches.
+         */
+        function generateRulerVisualization(rulerContainerId, measurementInches) {
+            const rulerContainer = document.getElementById(rulerContainerId);
+            rulerContainer.innerHTML = ''; // Clear previous content
 
-        function calculate() {
-            const sheetLength = parseFloat(document.getElementById('sheetLength').value);
-            
-            if (isNaN(sheetLength) || sheetLength <= 0) {
-                alert('Please enter a valid sheet length');
+            if (useMetricUnits) {
+                // Do not display ruler visualization in metric units
                 return;
             }
 
-            const score1 = 0.3325 * sheetLength + 0.03;
-            const score2 = 0.665 * sheetLength + 0.05;
-            const fold1 = score2;
-            const fold2 = score2 - score1;
-            const panel1 = score1;
-            const panel2 = score2 - score1;
-            const panel3 = sheetLength - score2;
+            const { wholeInches, sixteenths } = convertDecimalInchesToSixteenths(measurementInches);
 
-            document.getElementById('score1').textContent = formatMeasurement(score1);
-            document.getElementById('score2').textContent = formatMeasurement(score2);
-            document.getElementById('fold1').textContent = formatMeasurement(fold1);
-            document.getElementById('fold2').textContent = formatMeasurement(fold2);
-            document.getElementById('panel1').textContent = formatMeasurement(panel1);
-            document.getElementById('panel2').textContent = formatMeasurement(panel2);
-            document.getElementById('panel3').textContent = formatMeasurement(panel3);
+            // Create ruler element
+            const ruler = document.createElement('div');
+            ruler.classList.add('ruler');
+
+            for (let i = 0; i < 16; i++) {
+                const tick = document.createElement('div');
+                tick.classList.add('tick');
+
+                // Highlight the tick corresponding to the measurement
+                if (i === sixteenths) {
+                    tick.classList.add('highlight');
+                }
+
+                // Mark the whole inch position
+                if (i === 0) {
+                    tick.classList.add('whole-inch');
+                }
+
+                ruler.appendChild(tick);
+            }
+
+            rulerContainer.appendChild(ruler);
         }
-    </script>
-</body>
-</html>
+
+        /**
+         * Calculates the scores, folds, and panels based on the sheet length.
+         */
+        function calculateMeasurements() {
+            const sheetLengthInput = document.getElementById('sheetLength');
+            let sheetLength = parseFloat(sheetLengthInput.value);
+
+            if (isNaN(sheetLength) || sheetLength <= 0) {
+                alert('Please enter a valid sheet length.');
+                return;
+            }
+
+            // If Metric units, convert sheet length from mm to inches for calculations
+            if (useMetricUnits) {
+                sheetLength /= 25.4; // Convert mm to inches
+            }
+
+            // Constants for calculations based on folding machine formulas
+            const score1Inches = 0.3325 * sheetLength + 0.03;
+            const score2Inches = 0.665 * sheetLength + 0.05;
+            const fold1Inches = score2Inches;
+            const fold2Inches = score2Inches - score1Inches;
+            const panel1Inches = score1Inches;
+            const panel2Inches = score2Inches - score1Inches;
+            const panel3Inches = sheetLength - score2Inches;
+
+            // Convert measurements back to mm if using Metric units
+            let displayScore1 = score1Inches;
+            let displayScore2 = score2Inches;
+            let displayFold1 = fold1Inches;
+            let displayFold2 = fold2Inches;
+            let displayPanel1 = panel1In
